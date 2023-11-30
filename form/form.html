@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build a Survey Form using HTML and CSS</title>
+<link rel="stylesheet" href="style.css" />
+<body>
+	<form id="surveyForm">
+	
+		<label for="firstName">First Name:</label> 
+			<input type="text" id="firstName" placeholder="Enter your Firstname" required> 
+			
+		<label for="lastName">Last Name:</label> 
+			<input type="text" id="lastName" placeholder="Enter your Lastname" required>
+			
+		 <label for="dob">Date of Birth:</label> 
+		 	<input type="date" id="dob" required>
+		 	
+		 <label for="country">Country:</label> 
+		 	<select id="country" required>
+					<option value="Bangladesh">Bangladesh</option>
+					<option value="canada">Canada</option>
+					<option value="China">China</option>
+					<option value="India">India</option>
+					<option value="Pakistan">Pakistan</option>
+					<option value="SouthAfrica">SouthAfrica</option>
+					<option value="SriLanka">SriLanka</option>
+					<option value="USA">USA</option>
+			</select> 
+		<label>Gender:</label> 
+			<input type="radio" id="male" name="gender"required> 
+			
+		<label for="male">Male</label> 
+			<input type="radio"id="female" name="gender" required>
+			 
+		<label for="female">Female</label>
+		<!-- Add more gender options as needed -->
+
+		<label for="profession">Profession:</label> 
+			<input type="text" id="profession" required> 
+			
+		<label for="email">Email:</label>
+			 <input type="email" id="email" required>
+		 
+		 <label for="mobile">MobileNumber:</label> 
+		 	<input type="tel" id="mobile" pattern="[0-9]{10}" required>
+
+		<button type="button" onclick="submitForm()">Submit</button>
+		<button type="button" class="reset" onclick="resetForm()">Reset</button>
+	</form>
+	<div id="popup" class="popup">
+		<div class="popup-content" id="popupContent"></div>
+	</div>
+<script>
+		function submitForm() {
+			// Validate the form
+			var form = document.getElementById("surveyForm");
+			if (!form.checkValidity()) {
+				alert("Please fill out all the required fields.");
+				return;
+			}
+
+			// Get form values
+			var firstName = document.getElementById("firstName").value;
+			var lastName = document.getElementById("lastName").value;
+			var dob = document.getElementById("dob").value;
+			var country = document.getElementById("country").value;
+			var gender = document.querySelectorAll('input[name="gender"]:checked');
+			var genderValues = Array.from(gender).map(input => input.labels[0].innerText);
+			var profession = document.getElementById("profession").value;
+			var email = document.getElementById("email").value;
+			var mobile = document.getElementById("mobile").value;
+
+			// Display values in the popup
+			var popupContent = `
+            <p><strong>First Name:</strong> ${firstName}</p>
+            <p><strong>Last Name:</strong> ${lastName}</p>
+            <p><strong>Date of Birth:</strong> ${dob}</p>
+            <p><strong>Country:</strong> ${country}</p>
+            <p><strong>Gender:</strong> ${genderValues.join(", ")}</p>
+            <p><strong>Profession:</strong> ${profession}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Mobile Number:</strong> ${mobile}</p>
+        `;
+
+			document.getElementById("popupContent").innerHTML = popupContent;
+
+			// Show the popup
+			document.getElementById("popup").style.display = "flex";
+
+			// Reset the form
+			form.reset();
+		}
+
+		function resetForm() {
+			document.getElementById("surveyForm").reset();
+		}
+
+		// Close the popup on clicking outside the content
+		document.getElementById("popup").addEventListener("click", function (event) {
+			if (event.target === this) {
+				this.style.display = "none";
+			}
+		});
+	</script>
+
+</body>
+
+</html>
